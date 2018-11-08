@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IndexedDB</title>
+    <link rel="stylesheet" href="style/main.css">
+</head>
+<body>
+    <section>
+        <div class="div-inputs">
+            <label>
+                <input type="text" id="addId">
+            </label>
+            <label>
+                <input type="text" id="addFname">
+            </label>
+            <label>
+                <input type="text" id="addLname">
+            </label>
+            <label>
+                <input type="text" id="addAge">
+            </label>
+        </div>
+        <div class="div-center">
+            <div class="div-btn">
+                <button id="createPerson">Create</button>
+                <button id="getPeople">Read</button>
+                <button>Update</button>
+                <button>Delete</button>
+            </div>
+            <div>
+                <table id="table">
+                    <tr>
+                        <td id="id">ID</td>
+                        <td id="fname">First Name</td>
+                        <td id="lname">Last Name</td>
+                        <td id="age">Age</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <p id="status2"></p>
+    </section>
+
+    <script src="script/script.js"></script>
+</body>
+</html>
