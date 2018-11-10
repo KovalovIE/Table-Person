@@ -1,10 +1,11 @@
 document.addEventListener("DOMContentLoaded", function() {
     
     var request  = indexedDB.open("personFile",2);
-    
+  
     request.onsuccess = function(e) {
         console.log("ruing onsuccess");
         db = request.result;
+
         document.getElementById('createPerson').addEventListener("click", addPerson);
         document.getElementById('getPerson').addEventListener("click", getPerson);
         document.getElementById('updatePerson').addEventListener("click", updatePerson);
@@ -15,10 +16,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     request.onupgradeneeded = function(e) {
-        e.target.result.createObjectStore("people", { keyPath: "id", autoIncrement: true });
-        
+        e.target.result.createObjectStore("people", { keyPath: "id", autoIncrement: true });        
     }
 });
+
 
 function addPerson() {
 
@@ -26,6 +27,23 @@ function addPerson() {
     var store = transaction.objectStore("people");
 
     var personList = []; //массив персон
+
+    // idDigit = document.getElementById('addId').value; // id только целое число
+    // if (idDigit != '') {
+    //     if (isNaN(idDigit))  {
+    //       console.log("Enter only digit");
+    //     }
+    //     idDigit = parseInt(idDigit);
+    // };
+
+    // ageDigit = document.getElementById('addAge').value; // age только целое число
+    // if (ageDigit != '') {
+    //     if (isNaN(ageDigit))  {
+    //       console.log("Enter only digit");
+    //     }
+    //     ageDigit = parseInt(ageDigit);
+    // }
+
 
     var newPerson = {
         id: document.getElementById('addId').value,
@@ -55,15 +73,15 @@ function addPerson() {
         let td1 = document.createElement('td');
         let td2 = document.createElement('td');
         let td3 = document.createElement('td');
-        let td4 = document.createElement('td');                    
+        let td4 = document.createElement('td');  
 
         table1.appendChild(tr);
         tr.appendChild(td1);
         tr.appendChild(td2);
         tr.appendChild(td3);
-        tr.appendChild(td4);                    
+        tr.appendChild(td4);
 
-        td1.innerHTML = parseInt(document.getElementById('addId').value);
+        td1.innerHTML = document.getElementById('addId').value;
         td2.innerHTML = document.getElementById('addFname').value;
         td3.innerHTML = document.getElementById('addLname').value;
         td4.innerHTML = document.getElementById('addAge').value;
@@ -71,7 +89,7 @@ function addPerson() {
 }
 
 
-function getPerson() {
+function getPerson() { // осуществляет поиск персоны по id
     var transaction = db.transaction(["people"],"readonly");
     var store = transaction.objectStore("people");
 
@@ -85,28 +103,27 @@ function getPerson() {
 }
 
 
-function updatePerson() {
+function updatePerson() { // осуществляет поиск персоны по id
     var transaction = db.transaction(["people"],"readwrite");
     var store = transaction.objectStore("people");
 
     var request = store.get(document.getElementById('addId').value);
 
     request.onsuccess = function(e) {
-        var data = request.result;
+        var data = request.result; // получили ответ с объектом
         data.Fname = document.getElementById('addFname').value;
         data.Lname = document.getElementById('addLname').value;
         data.age = document.getElementById('addAge').value;
 
-        var td = document.querySelectorAll('td');
-        console.log(td)
+        var tr = document.querySelectorAll('tr');
         var value = document.getElementById('addId').value;
         
-        for(var i = 0; i < td.length; i++) {
-            console.log(td[i].innerHTML)
-            if(td[i].innerHTML === value) {
-                td[i+1].innerHTML = document.getElementById('addFname').value;
-                td[i+2].innerHTML = document.getElementById('addLname').value;
-                td[i+3].innerHTML = document.getElementById('addAge').value;
+        for(var i = 0; i < tr.length; i++) { // этот пункт только для таблицы, обновление данных на лету
+
+            if( tr[i].children[0].innerHTML === value ) { // поиск и сравнение введенного значения в input со значением первого потомка tr
+                tr[i].children[1].innerHTML = document.getElementById('addFname').value;
+                tr[i].children[2].innerHTML = document.getElementById('addLname').value;
+                tr[i].children[3].innerHTML = document.getElementById('addAge').value;
             }
         }
 
@@ -115,7 +132,7 @@ function updatePerson() {
 }
 
 
-function deletePerson() {
+function deletePerson() { // осуществляет удаление по id
 
     var value = document.getElementById('addId').value;
 
